@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TeamPlayCRUD.Data;
+using TeamPlayCRUD.Models;
+using TeamPlayCRUD.validator;
 
 namespace TeamPlayCRUD
 {
@@ -26,6 +29,10 @@ namespace TeamPlayCRUD
         {
             services.AddControllersWithViews();
             services.AddDbContext<TeamPlayerContext>();
+
+            //Config Fluent Validation
+            services.AddFluentValidation();
+            services.AddTransient<FluentValidation.IValidator<Team>, TeamValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

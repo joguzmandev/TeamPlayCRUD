@@ -1,0 +1,62 @@
+﻿@model IEnumerable<TeamPlayCRUD.Models.Team>
+
+@{
+    ViewData["Title"] = "Equipo";
+}
+
+<h1 class="jumbotron text-center text-capitalize">Lista general de equipos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-info">Nuevo equipo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Equipo
+            </th>
+            <th>
+                Código Pais
+            </th>
+            <th>
+                Fecha Creación
+            </th>
+            <th>
+                Estado
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountryCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @if (item.IsActive)
+                    {
+                        <span>Activo</span>
+                    }
+                    else
+                    {
+                        <span>Inactivo</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="EditTeam" asp-route-teamid="@item.Id"
+                       class="text-info font-weight-bold">Editar</a> |
+                    <a asp-action="DeleteTeam" asp-route-teamid="@item.Id" 
+                       class="text-danger font-weight-bold">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
