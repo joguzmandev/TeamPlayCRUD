@@ -21,6 +21,13 @@ namespace TeamPlayCRUD.Controllers
             return View(states);
         }
 
+        [Produces("application/json")]
+        public JsonResult GetAllStates()
+        {
+            List<State> states = db.States.ToList();
+            return Json(states);
+        }
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);

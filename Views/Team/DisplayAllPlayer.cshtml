@@ -1,0 +1,132 @@
+﻿@model TeamPlayCRUD.Models.Team;
+@{
+    ViewData["Title"] = "DisplayAllPlayer";
+}
+
+<div class="jumbotron">
+    <p>Equipo:  <b>@Model.Name</b></p>
+    <p>Código Pais:  <b>@Model.CountryCode</b></p>
+    <p>Estado del Equipo:  <b>@Model.IsActive</b></p>
+
+
+</div>
+
+@if (Model.Players.Count > 0)
+{
+    <hr />
+    <div>
+        <label for="player-states">Filtar por Estado de Jugadores</label>
+        <select name="player-states" id="player-states" class="form-control">
+        </select>
+        <br />
+        <a onclick="window.location.reload()" class="btn btn-success">Mostrar todos</a>
+    </div>
+    <hr />
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th>Nombre</th>
+                <th>Apellidos</th>
+            </tr>
+        </thead>
+        <tbody id="tbody-player">
+            @foreach (var player in Model.Players)
+            {
+                <tr>
+                    <td>@player.FirstName </td>
+                    <td>@player.LastName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 class="text-center">Equipo sin jugadores</h1>
+}
+
+@section Scripts{
+
+    <script>
+        document.addEventListener("DOMContentLoaded", e => {
+            fetchAllState();
+        })
+
+        const $playerStates = document.getElementById('player-states'),
+            $tbodyPlayer = document.getElementById('tbody-player')
+            $docFragment = document.createDocumentFragment();
+
+        $playerStates.addEventListener('change', async e => {
+
+            const stateSelected = e.target.value;
+            if (stateSelected !== -1) {
+
+                let url = `@Url.Action("GetPlayersByState", "Player")?stateid=${stateSelected}`;
+
+                const request = await fetch(url, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }});
+
+                if (!request.ok) console.error(request.statusText || 'Ocurrio un error')
+
+                const response = await request.json();
+
+                updateTableUI(response)
+            }
+        })
+
+        const fetchAllState = async () => {
+            const request = await fetch('@Url.Action("GetAllStates","State")');
+
+            if (!request.ok) {
+                console.error(request.statusText || 'Ocurrio un error')
+            }
+            const response = await request.json();
+            updateSelectOption(response)
+        }
+
+        const updateSelectOption = (states) => {
+            let defaultOption = document.createElement('option');
+            defaultOption.value = '-1';
+            defaultOption.text = 'Selecciona un estado';
+
+            $playerStates.innerHTML = '';
+
+            $docFragment.appendChild(defaultOption);
+
+            states.forEach(state => {
+                let option = document.createElement('option');
+                option.value = state['id'];
+                option.text = state['name'];
+
+
+                $docFragment.appendChild(option.cloneNode(true));
+            })
+
+            $playerStates.appendChild($docFragment)
+        }
+
+        const updateTableUI = (players) => {
+            $tbodyPlayer.innerHTML = '';
+            $docFragment.innerHTML = '';
+
+            players.forEach(player => {
+                let $tr = document.createElement('tr'),
+                    $tdFirstName = document.createElement('td'),
+                    $tdLastName = document.createElement('td');
+
+                $tdFirstName.textContent = player['firstName'];
+                $tdLastName.textContent = player['lastName'];
+
+                $tr.appendChild($tdFirstName)
+                $tr.appendChild($tdLastName)
+
+                $docFragment.appendChild($tr.cloneNode(true));
+
+            })
+            $tbodyPlayer.appendChild($docFragment);
+        }
+    </script>
+}

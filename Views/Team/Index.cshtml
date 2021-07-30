@@ -24,6 +24,7 @@
             <th>
                 Estado
             </th>
+            <th>Listar</th>
             <th></th>
         </tr>
     </thead>
@@ -49,6 +50,12 @@
                     {
                         <span>Inactivo</span>
                     }
+                </td>
+                <td>
+                    <a asp-action="DisplayAllPlayer" asp-route-teamid="@item.Id"
+                       class="alert-info font-weight-bold">
+                        Juegadores
+                    </a>
                 </td>
                 <td>
                     <a asp-action="EditTeam" asp-route-teamid="@item.Id"

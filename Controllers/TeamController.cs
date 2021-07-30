@@ -85,6 +85,16 @@ namespace TeamPlayCRUD.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> DisplayAllPlayer(int teamid)
+        {
+            Team team = await db.Teams.Include(p => p.Players).Where(t => t.Id == teamid).FirstOrDefaultAsync();
+            if(team == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(team);
+        }
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);

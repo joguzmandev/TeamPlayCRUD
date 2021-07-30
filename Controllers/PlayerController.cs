@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TeamPlayCRUD.Data;
 using TeamPlayCRUD.Models;
@@ -85,6 +86,12 @@ namespace TeamPlayCRUD.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+        [Produces("application/json")]
+        public async Task<JsonResult> GetPlayersByState(int stateid)
+        {
+            List<Player> players = await db.Players.Where(p => p.StateId == stateid).ToListAsync();
+            return Json(players);
         }
 
         protected override void Dispose(bool disposing)
