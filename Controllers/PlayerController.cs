@@ -45,7 +45,6 @@ namespace TeamPlayCRUD.Controllers
             return View(player);
         }
 
-
         [HttpGet]
         public IActionResult EditPlayer(int playerid)
         {
