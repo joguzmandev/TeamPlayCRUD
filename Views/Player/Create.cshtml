@@ -1,0 +1,99 @@
+﻿@model TeamPlayCRUD.Models.Player
+
+@{
+    string actionToExecute = "";
+    if (Model != null)
+    {
+
+        actionToExecute = "EditPlayer";
+
+    }
+    else
+    {
+        actionToExecute = "Create";
+    }
+}
+
+@if (actionToExecute == "Create")
+{
+    <h1 class="jumbotron text-center">Nuevo Jugador</h1>
+    ViewData["Title"] = "Nuevo Jugador";
+}
+else
+{
+    <h1></h1>
+    <h1 class="jumbotron text-center">Editando Jugador</h1>
+    ViewData["Title"] = "Editando Jugador";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="@actionToExecute">
+            @if (Model != null)
+            {
+                <input asp-for="Id" type="hidden" />
+            }
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">Nombre</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label">Apellidos</label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateBirth" class="control-label">Fecha Nacimiento</label>
+                <input asp-for="DateBirth" class="form-control" />
+                <span asp-validation-for="DateBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Passport" class="control-label">Pasaporte</label>
+                <input asp-for="Passport" class="form-control" />
+                <span asp-validation-for="Passport" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label">Dirección</label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p>Sexo </p>
+                <label><input asp-for="Gender" value="M" type="radio" class="form-control" />Masculino</label>
+                <label><input asp-for="Gender" value="F" type="radio" class="form-control" />Femenino</label>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeamId" class="control-label">Equipo</label>
+                <select asp-for="TeamId" class="form-control" asp-items="ViewBag.teamList">
+                    <option value="">Select a Team</option>
+                </select>
+                <span asp-validation-for="TeamId" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="StateId" class="control-label">Estado Jugador</label>
+                <select asp-for="StateId" class="form-control" asp-items="ViewBag.stateList">
+                    <option value="">Select State</option>
+
+                </select>
+                <span asp-validation-for="StateId" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volver</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

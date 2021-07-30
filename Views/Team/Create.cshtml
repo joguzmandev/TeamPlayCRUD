@@ -5,7 +5,7 @@
     if (Model != null)
     {
 
-        actionToExecute = "EditTeam";
+        actionToExecute = "EditPlayer";
 
     }
     else
@@ -38,13 +38,13 @@ else
             }
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label">Name</label>
+                <label asp-for="Name" class="control-label">Nombre</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
 
-                <label asp-for="CountryCode" class="control-label">Country</label>
+                <label asp-for="CountryCode" class="control-label">Código Pais</label>
                 <select asp-for="CountryCode" class="form-control">
                     <option value="">Select State</option>
                     <option value="RDS">Republic Dominicana</option>
@@ -53,7 +53,7 @@ else
                 <span asp-validation-for="CountryCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label">Created</label>
+                <label asp-for="CreatedAt" class="control-label">Fecha Creación</label>
                 <input asp-for="CreatedAt" class="form-control" />
                 <span asp-validation-for="CreatedAt" class="text-danger"></span>
             </div>
@@ -70,7 +70,7 @@ else
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver</a>
 </div>
 
 @section Scripts {

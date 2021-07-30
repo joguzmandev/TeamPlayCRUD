@@ -16,18 +16,21 @@ namespace TeamPlayCRUD.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             //Config Player Entity Properties
             modelBuilder.Entity<Player>().HasKey(p => p.Id);
             modelBuilder.Entity<Player>().Property(p => p.FirstName)
                 .HasMaxLength(50).IsRequired();
             modelBuilder.Entity<Player>().Property(p => p.LastName)
                 .HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Player>().Property(p => p.DateBirth)
+               .IsRequired();
             modelBuilder.Entity<Player>().Property(p => p.Passport)
                   .HasMaxLength(10).IsRequired();
             modelBuilder.Entity<Player>().Property(p => p.Address)
                   .HasMaxLength(100).IsRequired();
             modelBuilder.Entity<Player>().Property(p => p.Gender)
-                  .HasMaxLength(10).IsRequired();
+                  .HasMaxLength(1).IsRequired();
 
             //Config Team Entity Properties
             modelBuilder.Entity<Team>().HasKey(t => t.Id);
