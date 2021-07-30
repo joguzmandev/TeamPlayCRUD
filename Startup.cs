@@ -34,6 +34,7 @@ namespace TeamPlayCRUD
             services.AddFluentValidation();
             services.AddTransient<FluentValidation.IValidator<Team>, TeamValidator>();
             services.AddTransient<FluentValidation.IValidator<Player>, PlayerValidator>();
+            services.AddTransient<FluentValidation.IValidator<State>, StateValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

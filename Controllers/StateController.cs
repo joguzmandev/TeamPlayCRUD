@@ -20,6 +20,28 @@ namespace TeamPlayCRUD.Controllers
             List<State> states = db.States.ToList();
             return View(states);
         }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Create(State state)
+        {
+            state.CreatedAt = DateTime.Now;
+
+            if (ModelState.IsValid)
+            {
+                db.States.Add(state);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            return View(state);
+        }
+
 
         [Produces("application/json")]
         public JsonResult GetAllStates()
