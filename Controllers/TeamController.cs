@@ -30,7 +30,6 @@ namespace TeamPlayCRUD.Controllers
         public IActionResult Create()
         {
 
-            ViewBag.stateListItems = GetAllState();
             ViewBag.countriesCode = GetAllCountriesCode();
             return View();
         }
@@ -38,13 +37,13 @@ namespace TeamPlayCRUD.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Team team)
         {
+            team.CreatedAt = DateTime.Now;
             if (ModelState.IsValid)
             {
                 db.Teams.Add(team);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.stateListItems = GetAllState();
             ViewBag.countriesCode = GetAllCountriesCode();
             return View(team);
         }
@@ -58,7 +57,7 @@ namespace TeamPlayCRUD.Controllers
             {
                 return RedirectToAction("Index");
             }
-
+            ViewBag.countriesCode = GetAllCountriesCode();
             return View("Create", teamFound);
         }
 
@@ -72,6 +71,7 @@ namespace TeamPlayCRUD.Controllers
 
                 return RedirectToAction("Index");
             }
+            ViewBag.countriesCode = GetAllCountriesCode();
             return View("Create", team);
         }
 
@@ -102,18 +102,6 @@ namespace TeamPlayCRUD.Controllers
         {
             base.Dispose(disposing);
             this.db = null;
-        }
-
-        private List<SelectListItem> GetAllState()
-        {
-            var selectListItemsStates = from state in db.States
-                                        select new SelectListItem()
-                                        {
-                                            Text = state.Name,
-                                            Value = state.Id.ToString()
-                                        };
-
-            return selectListItemsStates.ToList();
         }
 
         private List<SelectListItem> GetAllCountriesCode()

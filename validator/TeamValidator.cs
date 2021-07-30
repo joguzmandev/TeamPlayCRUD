@@ -19,11 +19,6 @@ namespace TeamPlayCRUD.validator
                 .NotEmpty().WithMessage("Campo requerido")
                 .NotNull().WithMessage("Campo requerido")
                 .NotEqual("").WithMessage("Campo requerido");
-
-            RuleFor(t => t.CreatedAt).NotEmpty()
-                .WithMessage("Campo requerido")
-                .NotNull()
-                .WithMessage("Campo requerido");
         }
     }
 }

@@ -5,7 +5,7 @@
     if (Model != null)
     {
 
-        actionToExecute = "EditPlayer";
+        actionToExecute = "EditTeam";
 
     }
     else
@@ -35,6 +35,7 @@ else
             @if (Model != null)
             {
                 <input asp-for="Id" type="hidden" />
+                <input asp-for= "CreatedAt" type = "hidden" />
             }
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -49,11 +50,6 @@ else
                     <option value="">-- Selecciona --</option>
                 </select>
                 <span asp-validation-for="CountryCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label">Fecha Creación</label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IsActive" class="control-label">Estado</label>
