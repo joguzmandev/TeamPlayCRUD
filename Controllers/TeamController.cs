@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TeamPlayCRUD.Data;
 using TeamPlayCRUD.Models;
 using Microsoft.EntityFrameworkCore;
+using TeamPlayCRUD.Helpers;
 
 namespace TeamPlayCRUD.Controllers
 {
@@ -28,8 +29,9 @@ namespace TeamPlayCRUD.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            
-            ViewBag.stateListItems = getAllState();
+
+            ViewBag.stateListItems = GetAllState();
+            ViewBag.countriesCode = GetAllCountriesCode();
             return View();
         }
 
@@ -42,7 +44,8 @@ namespace TeamPlayCRUD.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.stateListItems = getAllState();
+            ViewBag.stateListItems = GetAllState();
+            ViewBag.countriesCode = GetAllCountriesCode();
             return View(team);
         }
 
@@ -51,12 +54,12 @@ namespace TeamPlayCRUD.Controllers
         {
             Team teamFound = db.Teams.Where(team => team.Id == teamid).FirstOrDefault();
 
-            if(teamFound == null)
+            if (teamFound == null)
             {
                 return RedirectToAction("Index");
             }
 
-            return View("Create",teamFound);
+            return View("Create", teamFound);
         }
 
         [HttpPost]
@@ -88,7 +91,7 @@ namespace TeamPlayCRUD.Controllers
         public async Task<IActionResult> DisplayAllPlayer(int teamid)
         {
             Team team = await db.Teams.Include(p => p.Players).Where(t => t.Id == teamid).FirstOrDefaultAsync();
-            if(team == null)
+            if (team == null)
             {
                 return RedirectToAction("Index");
             }
@@ -101,7 +104,7 @@ namespace TeamPlayCRUD.Controllers
             this.db = null;
         }
 
-        private List<SelectListItem> getAllState()
+        private List<SelectListItem> GetAllState()
         {
             var selectListItemsStates = from state in db.States
                                         select new SelectListItem()
@@ -110,7 +113,17 @@ namespace TeamPlayCRUD.Controllers
                                             Value = state.Id.ToString()
                                         };
 
-           return selectListItemsStates.ToList();
+            return selectListItemsStates.ToList();
+        }
+
+        private List<SelectListItem> GetAllCountriesCode()
+        {
+            return CountryCodeGerator.GetContriesCode().ConvertAll(s => new SelectListItem()
+            {
+                Text = s,
+                Value = s
+            });
+
         }
     }
 }

@@ -45,10 +45,8 @@ else
             <div class="form-group">
 
                 <label asp-for="CountryCode" class="control-label">Código Pais</label>
-                <select asp-for="CountryCode" class="form-control">
+                <select asp-for="CountryCode" class="form-control" asp-items="ViewBag.countriesCode">
                     <option value="">-- Selecciona --</option>
-                    <option value="RDS">Republic Dominicana</option>
-                    <option value="PRD">Puerto Rico</option>
                 </select>
                 <span asp-validation-for="CountryCode" class="text-danger"></span>
             </div>
